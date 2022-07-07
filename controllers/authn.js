@@ -25,7 +25,7 @@ const signUp = async (req, res) => {
     expiresIn: "30d",
   });
   res.status(201).json({
-    data: user,
+    msg: "Sign up successful",
     token,
   });
 };

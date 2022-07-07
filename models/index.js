@@ -4,7 +4,10 @@ const Books = require("./Books");
 
 const synch = async () => {
   try {
-    const result = await sequelize.sync({ logging: false });
+    const result = await sequelize.sync({
+      logging: false,
+      alter: true,
+    });
   } catch (error) {
     console.log(error);
   }

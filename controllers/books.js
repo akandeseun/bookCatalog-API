@@ -15,7 +15,9 @@ const addBook = async (req, res) => {
 
   const bodyObject = { title, author, category, genre, createdBy: username };
   const book = await Book.create(bodyObject);
-  res.status(201).json(book);
+  res.status(201).json({
+    msg: "Book Added successfully",
+  });
 };
 
 const getBook = async (req, res) => {
