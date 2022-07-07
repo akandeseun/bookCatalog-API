@@ -78,6 +78,12 @@ const updateBook = async (req, res) => {
     body: { title, author, category, genre },
     params: { id },
   } = req;
+  const bodyParams = Object.keys(req.body);
+  if (bodyParams.length === 0) {
+    return res.status(400).json({
+      msg: "Fill out necessary fields",
+    });
+  }
   const bodyObject = {};
 
   if (title) {
