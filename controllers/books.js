@@ -3,17 +3,38 @@ const Book = require("../models/Books");
 
 const addBook = async (req, res) => {
   const {
-    body: { title, author, category, genre },
+    body: {
+      title,
+      author,
+      category,
+      year,
+      language,
+      ISBN,
+      series,
+      volume,
+      publisher,
+    },
     user: { username },
   } = req;
 
-  if (!title || !author || !category || !genre) {
+  if (Object.keys(req.body).length === 0) {
     return res.status(400).json({
       msg: "Please fill out all fields",
     });
   }
 
-  const bodyObject = { title, author, category, genre, createdBy: username };
+  const bodyObject = {
+    title,
+    author,
+    category,
+    year,
+    language,
+    ISBN,
+    series,
+    volume,
+    publisher,
+    createdBy: username,
+  };
   const book = await Book.create(bodyObject);
   res.status(201).json({
     msg: "Book Added successfully",
@@ -21,10 +42,20 @@ const addBook = async (req, res) => {
 };
 
 const getBook = async (req, res) => {
-  const { title, author, category, genre } = req.query;
-  const queryParams = Object.keys(req.query);
+  const {
+    title,
+    author,
+    category,
+    year,
+    language,
+    ISBN,
+    series,
+    volume,
+    publisher,
+  } = req.query;
+  // const queryParams = Object.keys(req.query);
 
-  if (queryParams.length === 0) {
+  if (Object.keys(req.query).length === 0) {
     const book = await Book.findAll();
     return res.status(200).json({
       book,
@@ -53,8 +84,33 @@ const getBook = async (req, res) => {
           },
         },
         {
-          genre: {
-            [Op.startsWith]: genre,
+          year: {
+            [Op.startsWith]: year,
+          },
+        },
+        {
+          language: {
+            [Op.startsWith]: language,
+          },
+        },
+        {
+          ISBN: {
+            [Op.startsWith]: ISBN,
+          },
+        },
+        {
+          series: {
+            [Op.startsWith]: series,
+          },
+        },
+        {
+          volume: {
+            [Op.startsWith]: volume,
+          },
+        },
+        {
+          publisher: {
+            [Op.startsWith]: publisher,
           },
         },
       ],
@@ -75,7 +131,17 @@ const getBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
   const {
-    body: { title, author, category, genre },
+    body: {
+      title,
+      author,
+      category,
+      year,
+      language,
+      ISBN,
+      series,
+      volume,
+      publisher,
+    },
     params: { id },
   } = req;
   const bodyParams = Object.keys(req.body);
@@ -95,8 +161,23 @@ const updateBook = async (req, res) => {
   if (category) {
     bodyObject.category = category;
   }
-  if (genre) {
-    bodyObject.genre = genre;
+  if (year) {
+    bodyObject.year = year;
+  }
+  if (language) {
+    bodyObject.language = language;
+  }
+  if (ISBN) {
+    bodyObject.ISBN = ISBN;
+  }
+  if (series) {
+    bodyObject.series = series;
+  }
+  if (volume) {
+    bodyObject.volume = volume;
+  }
+  if (publisher) {
+    bodyObject.publisher = publisher;
   }
 
   const foundBook = await Book.findOne({

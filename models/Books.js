@@ -34,6 +34,7 @@ const Books = sequelize.define(
     ISBN: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      unique: true,
     },
     series: {
       type: DataTypes.STRING,
@@ -45,7 +46,7 @@ const Books = sequelize.define(
     },
     publisher: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     createdBy: {
       type: DataTypes.STRING,
