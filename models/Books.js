@@ -23,7 +23,27 @@ const Books = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    genre: {
+    year: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    language: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    ISBN: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    series: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    volume: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    publisher: {
       type: DataTypes.STRING,
       allowNull: false,
     },
