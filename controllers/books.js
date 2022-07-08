@@ -188,7 +188,7 @@ const updateBook = async (req, res) => {
 
   if (!foundBook) {
     return res.status(404).json({
-      msg: `No book found with id ${id}`,
+      msg: "Book does not exist",
     });
   }
 
