@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const createJWT = require("../utils/token");
 
 const signUp = async (req, res) => {
   const { username, email, password } = req.body;
@@ -21,11 +22,10 @@ const signUp = async (req, res) => {
   };
 
   const user = await User.create(bodyObject);
-  const token = jwt.sign({ username }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
+  const token = createJWT(user);
   res.status(201).json({
     msg: "Sign up successful",
+    user,
     token,
   });
 };
