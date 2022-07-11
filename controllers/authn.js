@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const createJWT = require("../utils/token");
 
@@ -25,7 +24,6 @@ const signUp = async (req, res) => {
   const token = createJWT(user);
   res.status(201).json({
     msg: "Sign up successful",
-    user,
     token,
   });
 };
@@ -40,11 +38,6 @@ const signIn = async (req, res) => {
     bodyObject.email = email;
   }
   const user = await User.findOne({ where: bodyObject });
-  const payload = {
-    username: user.username,
-    email: user.email,
-  };
-  // password from db
   const userPassword = user.password;
   const comparePassword = await bcrypt.compare(password, userPassword);
   if (!comparePassword) {
@@ -52,11 +45,9 @@ const signIn = async (req, res) => {
       msg: "Incorrect username or password",
     });
   }
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
+  const token = createJWT(user);
   res.status(200).json({
-    msg: `Welcome ${payload.username}`,
+    msg: `Welcome ${user.username}`,
     token,
   });
 };
