@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { verifyToken } = require("../utils/token");
 
 const authzMiddleware = async (req, res, next) => {
   const auth = req.headers.authorization;
@@ -11,8 +11,7 @@ const authzMiddleware = async (req, res, next) => {
   }
   const token = auth.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { username, email } = decoded;
+    const { username, email } = verifyToken(token);
 
     const verifiedUser = await User.findOne({
       where: {

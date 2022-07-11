@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-const createJWT = require("../utils/token");
+const { createJWT } = require("../utils/token");
+const { hashPassword, verifyPassword } = require("../utils/secure-user");
 
 const signUp = async (req, res) => {
   const { username, email, password } = req.body;
@@ -11,16 +12,16 @@ const signUp = async (req, res) => {
     });
   }
   // hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  // body Object
-  const bodyObject = {
+  const securedPassword = await hashPassword(password);
+
+  // user Details from req.body
+  const userDetails = {
     username: username,
     email: email,
-    password: hashedPassword,
+    password: securedPassword,
   };
 
-  const user = await User.create(bodyObject);
+  const user = await User.create(userDetails);
   const token = createJWT(user);
   res.status(201).json({
     msg: "Sign up successful",
@@ -30,17 +31,17 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   const { username, email, password } = req.body;
-  const bodyObject = {};
+  const userDetails = {};
   if (username) {
-    bodyObject.username = username;
+    userDetails.username = username;
   }
   if (email) {
-    bodyObject.email = email;
+    userDetails.email = email;
   }
-  const user = await User.findOne({ where: bodyObject });
+  const user = await User.findOne({ where: userDetails });
   const userPassword = user.password;
-  const comparePassword = await bcrypt.compare(password, userPassword);
-  if (!comparePassword) {
+  const isValid = await verifyPassword(password, userPassword);
+  if (!isValid) {
     return res.status(400).json({
       msg: "Incorrect username or password",
     });

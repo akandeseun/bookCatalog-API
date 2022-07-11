@@ -8,4 +8,9 @@ const createJWT = (user) => {
   return token;
 };
 
-module.exports = createJWT;
+const verifyToken = (token) => {
+  const tokenObject = jwt.verify(token, process.env.JWT_SECRET);
+  return tokenObject;
+};
+
+module.exports = { createJWT, verifyToken };
