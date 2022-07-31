@@ -1,15 +1,15 @@
-const User = require("../models/User");
-const sgMail = require("@sendgrid/mail");
-const jwt = require("jsonwebtoken");
-const { createJWT } = require("../utils/token");
-const { hashPassword, verifyPassword } = require("../utils/secure-user");
+const sgMail = require('@sendgrid/mail');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const { createJWT } = require('../utils/token');
+const { hashPassword, verifyPassword } = require('../utils/secure-user');
 
 const signUp = async (req, res) => {
   const { username, email, password } = req.body;
   // validate
   if (!username || !email || !password || !req.body) {
     return res.status(400).json({
-      msg: "Please fill all fields",
+      msg: 'Please fill all fields',
     });
   }
   // hash password
@@ -29,22 +29,22 @@ const signUp = async (req, res) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
     to: email,
-    from: "akandeseun44@gmail.com",
-    subject: "Verify your identity",
-    text: "Use the link to verify your identity",
+    from: 'akandeseun44@gmail.com',
+    subject: 'Verify your identity',
+    text: 'Use the link to verify your identity',
     html: `<a href="http://localhost:3210/api/auth/success/${token}">here</a>`,
   };
   await sgMail.send(msg);
 
   res.status(201).json({
-    msg: "Verification link sent to your mail",
+    msg: 'Verification link sent to your mail',
     token,
     user,
   });
 };
 
 const verifyUserEmail = async (req, res) => {
-  const token = req.params.token;
+  const { token } = req.params;
   const tokenObject = jwt.verify(token, process.env.JWT_SECRET);
   const { username, email } = tokenObject;
 
@@ -56,7 +56,7 @@ const verifyUserEmail = async (req, res) => {
   });
   if (!foundUser) {
     return res.status(400).json({
-      msg: "Unauthorized user",
+      msg: 'Unauthorized user',
     });
   }
   const user = await User.update(
@@ -65,11 +65,11 @@ const verifyUserEmail = async (req, res) => {
       where: {
         username,
       },
-    }
+    },
   );
 
   res.status(200).json({
-    msg: "Verification successful, you can now proceed to sign in",
+    msg: 'Verification successful, you can now proceed to sign in',
   });
 };
 
@@ -88,12 +88,12 @@ const signIn = async (req, res) => {
   const isValid = await verifyPassword(password, userPassword);
   if (!isValid) {
     return res.status(400).json({
-      msg: "Incorrect username or password",
+      msg: 'Incorrect username or password',
     });
   }
   if (!isVerified) {
     return res.status(400).json({
-      msg: "Please verify your email to continue",
+      msg: 'Please verify your email to continue',
     });
   }
   const token = createJWT(user);

@@ -1,7 +1,7 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/connect");
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../db/connect');
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -20,7 +20,7 @@ const User = sequelize.define("User", {
     unique: true,
     validate: {
       isEmail: {
-        msg: "Please provide a valid email",
+        msg: 'Please provide a valid email',
       },
     },
   },

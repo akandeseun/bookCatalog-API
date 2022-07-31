@@ -1,6 +1,6 @@
-const sequelize = require("../db/connect");
-const User = require("./User");
-const Books = require("./Books");
+const sequelize = require('../db/connect');
+const User = require('./User');
+const Books = require('./Books');
 
 const synch = async () => {
   try {

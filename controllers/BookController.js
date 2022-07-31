@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const Book = require("../models/Books");
+const { Op } = require('sequelize')
+const Book = require('../models/Book')
 
 const addBook = async (req, res) => {
   const {
@@ -12,15 +12,15 @@ const addBook = async (req, res) => {
       ISBN,
       series,
       volume,
-      publisher,
+      publisher
     },
-    user: { username },
-  } = req;
+    user: { username }
+  } = req
 
   if (Object.keys(req.body).length === 0) {
     return res.status(400).json({
-      msg: "Please fill out all fields",
-    });
+      msg: 'Please fill out all fields'
+    })
   }
 
   const bodyObject = {
@@ -33,13 +33,14 @@ const addBook = async (req, res) => {
     series,
     volume,
     publisher,
-    createdBy: username,
-  };
-  const book = await Book.create(bodyObject);
-  res.status(201).json({
-    msg: "Book Added successfully",
-  });
-};
+    createdBy: username
+  }
+  await Book.create(bodyObject)
+
+  return res.status(201).json({
+    msg: 'Book Added successfully'
+  })
+}
 
 const getBook = async (req, res) => {
   const {
@@ -51,15 +52,15 @@ const getBook = async (req, res) => {
     ISBN,
     series,
     volume,
-    publisher,
-  } = req.query;
+    publisher
+  } = req.query
   // const queryParams = Object.keys(req.query);
 
   if (Object.keys(req.query).length === 0) {
-    const book = await Book.findAll();
+    const book = await Book.findAll()
     return res.status(200).json({
-      book,
-    });
+      book
+    })
   }
 
   const book = await Book.findAll({
@@ -67,67 +68,67 @@ const getBook = async (req, res) => {
       [Op.or]: [
         {
           title: {
-            [Op.substring]: title,
-          },
+            [Op.substring]: title
+          }
         },
         {
           author: {
             [Op.or]: {
               [Op.startsWith]: author,
-              [Op.endsWith]: author,
-            },
-          },
+              [Op.endsWith]: author
+            }
+          }
         },
         {
           category: {
-            [Op.startsWith]: category,
-          },
+            [Op.startsWith]: category
+          }
         },
         {
           year: {
-            [Op.startsWith]: year,
-          },
+            [Op.startsWith]: year
+          }
         },
         {
           language: {
-            [Op.startsWith]: language,
-          },
+            [Op.startsWith]: language
+          }
         },
         {
           ISBN: {
-            [Op.startsWith]: ISBN,
-          },
+            [Op.startsWith]: ISBN
+          }
         },
         {
           series: {
-            [Op.startsWith]: series,
-          },
+            [Op.startsWith]: series
+          }
         },
         {
           volume: {
-            [Op.startsWith]: volume,
-          },
+            [Op.startsWith]: volume
+          }
         },
         {
           publisher: {
-            [Op.startsWith]: publisher,
-          },
-        },
-      ],
-    },
-  });
+            [Op.startsWith]: publisher
+          }
+        }
+      ]
+    }
+  })
 
   if (book.length === 0) {
     return res.status(404).json({
-      msg: "No Book found with search parameters",
-    });
+      msg: 'No Book found with search parameters'
+    })
   }
 
   res.status(200).json({
     nbHits: book.length,
-    book,
-  });
-};
+    book
+  })
+}
 
 const updateBook = async (req, res) => {
   const {
@@ -140,91 +141,96 @@ const updateBook = async (req, res) => {
       ISBN,
       series,
       volume,
-      publisher,
+      publisher
     },
-    params: { id },
-  } = req;
-  const bodyParams = Object.keys(req.body);
+    params: { id }
+  } = req
+  const bodyParams = Object.keys(req.body)
   if (bodyParams.length === 0) {
     return res.status(400).json({
-      msg: "Fill out necessary fields",
-    });
+      msg: 'Fill out necessary fields'
+    })
   }
-  const bodyObject = {};
+  const bodyObject = {}
 
   if (title) {
-    bodyObject.title = title;
+    bodyObject.title = title
   }
   if (author) {
-    bodyObject.author = author;
+    bodyObject.author = author
   }
   if (category) {
-    bodyObject.category = category;
+    bodyObject.category = category
   }
   if (year) {
-    bodyObject.year = year;
+    bodyObject.year = year
   }
   if (language) {
-    bodyObject.language = language;
+    bodyObject.language = language
   }
   if (ISBN) {
-    bodyObject.ISBN = ISBN;
+    bodyObject.ISBN = ISBN
   }
   if (series) {
-    bodyObject.series = series;
+    bodyObject.series = series
   }
   if (volume) {
-    bodyObject.volume = volume;
+    bodyObject.volume = volume
   }
   if (publisher) {
-    bodyObject.publisher = publisher;
+    bodyObject.publisher = publisher
   }
 
   const foundBook = await Book.findOne({
     where: {
-      id: parseInt(id),
-    },
-  });
+      id: parseInt(id)
+    }
+  })
 
   if (!foundBook) {
     return res.status(404).json({
-      msg: "Book does not exist",
-    });
+      msg: 'Book does not exist'
+    })
   }
 
   const book = await Book.update(bodyObject, {
     where: {
-      id: parseInt(id),
-    },
-  });
+      id: parseInt(id)
+    }
+  })
   res.status(200).json({
-    msg: "Update successful",
-  });
-};
+    msg: 'Update successful'
+  })
+}
 
 const deleteBook = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   const foundBook = await Book.findOne({
     where: {
-      id: parseInt(id),
-    },
-  });
+      id: parseInt(id)
+    }
+  })
 
   if (!foundBook) {
     return res.status(404).json({
-      msg: `No book found with id ${id}`,
-    });
+      msg: `No book found with id ${id}`
+    })
   }
 
   const book = await Book.destroy({
     where: {
-      id: parseInt(id),
-    },
-  });
+      id: parseInt(id)
+    }
+  })
   res.status(200).json({
-    msg: "Book Deleted",
-  });
-};
+    msg: 'Book Deleted'
+  })
+}
 
-module.exports = { addBook, getBook, updateBook, deleteBook };
+module.exports = {
+  addBook,
+  getBook,
+  updateBook,
+  deleteBook
+}
