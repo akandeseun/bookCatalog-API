@@ -1,10 +1,10 @@
-const express = require('express');
-const { signUp, verifyUserEmail, signIn } = require('../controllers/authn');
+const express = require('express')
+const { signUp, verifyUserEmail, signIn } = require('../controllers/authn')
 
-const router = express.Router();
+const router = express.Router()
 
-router.post('/signup', signUp);
-router.get('/success/:token', verifyUserEmail);
-router.post('/signin', signIn);
+router.post('/signup', signUp)
+router.get('/success/:token', verifyUserEmail)
+router.post('/signin', signIn)
 
-module.exports = router;
+module.exports = router
