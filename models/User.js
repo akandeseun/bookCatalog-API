@@ -1,18 +1,18 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/connect");
+const { DataTypes } = require('sequelize')
+const sequelize = require('../db/connect')
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
-    unique: true,
+    unique: true
   },
   username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true,
+    primaryKey: true
   },
   email: {
     type: DataTypes.STRING,
@@ -20,19 +20,22 @@ const User = sequelize.define("User", {
     unique: true,
     validate: {
       isEmail: {
-        msg: "Please provide a valid email",
-      },
-    },
+        msg: 'Please provide a valid email'
+      }
+    }
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
   verified: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false,
+    defaultValue: false
   },
-});
+  favoriteBooks: {
+    type: DataTypes.STRING
+  }
+})
 
-module.exports = User;
+module.exports = User
