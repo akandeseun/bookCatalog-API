@@ -1,11 +1,14 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Publishers', {
-      publisherId: {
-        type: Sequelize.UUID
+    await queryInterface.createTable('Authors', {
+      authorId: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true
       },
-      publisher: {
-        type: Sequelize.STRING
+      author: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -17,8 +20,7 @@ module.exports = {
       }
     })
   },
-  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Publishers')
+    await queryInterface.dropTable('Authors')
   }
 }

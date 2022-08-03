@@ -2,10 +2,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Likeables', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        defaultValue: Sequelize.UUIDV4
       },
       likeableId: {
         type: Sequelize.UUID
@@ -26,7 +25,6 @@ module.exports = {
       }
     })
   },
-  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Likeables')
   }

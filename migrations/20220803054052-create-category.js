@@ -2,7 +2,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Categories', {
       categoryId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true
       },
       category: {
         type: Sequelize.STRING
@@ -17,7 +19,6 @@ module.exports = {
       }
     })
   },
-  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Categories')
   }

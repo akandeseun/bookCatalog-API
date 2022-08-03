@@ -1,7 +1,7 @@
 require('express-async-errors')
 const express = require('express')
 const dotenv = require('dotenv')
-const synch = require('./models/index')
+// const synch = require('./models/index')
 const authorize = require('./middlewares/authz')
 const authnRoutes = require('./routes/authn')
 const bookRoutes = require('./routes/books')
@@ -22,7 +22,7 @@ const start = async () => {
   try {
     // await sequelize.authenticate();
     // console.log("DB Conn Success");
-    synch()
+    // synch()
     app.listen(port, () => {
       console.log(`server is listening on port ${port}`)
     })
