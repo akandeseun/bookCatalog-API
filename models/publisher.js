@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize')
+const publishersMigration = require('./columns/publishersMigration')
 module.exports = (sequelize, DataTypes) => {
   class Publisher extends Model {
     /**
@@ -13,12 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Publisher.init({
-    publisherId: DataTypes.UUID,
-    publisher: DataTypes.STRING
-  }, {
+  Publisher.init(publishersMigration, {
     sequelize,
-    modelName: 'Publisher',
-  });
-  return Publisher;
-};
+    modelName: 'Publisher'
+  })
+  return Publisher
+}

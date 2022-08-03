@@ -1,6 +1,7 @@
 const { Model } = require('sequelize')
-const createBookObj = require('./columns/20220803054005-create-book')
-module.exports = (sequelize, DataTypes, Sequelize) => {
+const booksMigration = require('./columns/booksMigration')
+
+module.exports = (sequelize, DataTypes) => {
   class Book extends Model {
     /**
      * Helper method for defining associations.
@@ -11,7 +12,7 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
       // define association here
     }
   }
-  Book.init(createBookObj, {
+  Book.init(booksMigration, {
     sequelize,
     modelName: 'Book'
   })

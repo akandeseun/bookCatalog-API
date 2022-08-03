@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize')
+const categoriesMigration = require('./columns/categoriesMigration')
+
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
     /**
@@ -13,12 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Category.init({
-    categoryId: DataTypes.UUID,
-    category: DataTypes.STRING
-  }, {
+  Category.init(categoriesMigration, {
     sequelize,
-    modelName: 'Category',
-  });
-  return Category;
-};
+    modelName: 'Category'
+  })
+  return Category
+}

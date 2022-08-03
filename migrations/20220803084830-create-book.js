@@ -1,7 +1,8 @@
-const createBookObj = require('../models/columns/20220803054005-create-book')
+const booksMigration = require('../models/columns/booksMigration')
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Books', createBookObj)
+    await queryInterface.createTable('Books', booksMigration)
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Books')

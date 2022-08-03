@@ -1,23 +1,8 @@
+const categoriesMigration = require('../models/columns/categoriesMigration')
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Categories', {
-      categoryId: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true
-      },
-      category: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    })
+    await queryInterface.createTable('Categories', categoriesMigration)
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Categories')

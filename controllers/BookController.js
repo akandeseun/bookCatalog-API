@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const Book = require('../models/Books')
+const Book = require('../models/book')
 
 const addBook = async (req, res) => {
   const {

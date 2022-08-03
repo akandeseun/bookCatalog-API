@@ -1,7 +1,8 @@
+'use strict'
 const { Model } = require('sequelize')
-const authorsMigration = require('./columns/authorsMigration')
+const usersMigration = require('./columns/usersMigration')
 module.exports = (sequelize, DataTypes) => {
-  class Author extends Model {
+  class User extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Author.init(authorsMigration, {
+  User.init(usersMigration, {
     sequelize,
-    modelName: 'Author'
+    modelName: 'User'
   })
-  return Author
+  return User
 }

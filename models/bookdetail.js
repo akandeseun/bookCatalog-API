@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize')
+const booksDetailsMigration = require('./columns/bookDetailsMigration')
+
 module.exports = (sequelize, DataTypes) => {
   class BookDetail extends Model {
     /**
@@ -13,13 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  BookDetail.init({
-    displayName: DataTypes.STRING,
-    series: DataTypes.STRING,
-    volume: DataTypes.INTEGER
-  }, {
+  BookDetail.init(booksDetailsMigration, {
     sequelize,
-    modelName: 'BookDetail',
-  });
-  return BookDetail;
-};
+    modelName: 'BookDetail'
+  })
+  return BookDetail
+}
