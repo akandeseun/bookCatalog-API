@@ -1,4 +1,5 @@
 const usersMigration = require('../models/columns/usersMigration')
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', usersMigration)

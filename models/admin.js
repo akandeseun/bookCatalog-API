@@ -1,8 +1,8 @@
+'use strict'
 const { Model } = require('sequelize')
-const usersMigration = require('./columns/usersMigration')
-
+const adminMigrations = require('./columns/adminMigrations')
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Admin extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init(usersMigration, {
+  Admin.init(adminMigrations, {
     sequelize,
-    modelName: 'User'
+    modelName: 'Admin'
   })
-  return User
+  return Admin
 }

@@ -40,6 +40,7 @@ Object.keys(db).forEach((modelName) => {
 })
 
 // Associations
+
 // db.Author.hasMany(db.Like, {
 //   foreignKey: 'likeableId',
 //   constraints: 'false',
@@ -109,6 +110,15 @@ Object.keys(db).forEach((modelName) => {
 // })
 // db.Like.belongsTo(db.User, {
 //   foreignKey: 'likeableId',
+//   constraints: 'false'
+// })
+
+// db.User.hasOne(db.Like, {
+//   foreignKey: 'userId',
+//   constraints: 'false'
+// })
+// db.Like.belongsTo(db.User, {
+//   foreignKey: 'userId',
 //   constraints: 'false'
 // })
 
