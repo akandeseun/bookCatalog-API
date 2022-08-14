@@ -14,13 +14,5 @@ module.exports = {
   },
   userId: {
     type: DataTypes.UUID
-  },
-  createdAt: {
-    allowNull: false,
-    type: DataTypes.DATE
-  },
-  updatedAt: {
-    allowNull: false,
-    type: DataTypes.DATE
   }
 }

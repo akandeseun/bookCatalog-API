@@ -12,12 +12,6 @@ module.exports = {
   displayName: {
     type: DataTypes.STRING
   },
-  series: {
-    type: DataTypes.STRING
-  },
-  volume: {
-    type: DataTypes.INTEGER
-  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE

@@ -6,8 +6,10 @@ module.exports = {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  author: {
-    type: DataTypes.STRING,
-    allowNull: false
+  bookId: {
+    type: DataTypes.UUID
+  },
+  authorId: {
+    type: DataTypes.UUID
   }
 }

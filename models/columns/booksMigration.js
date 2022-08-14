@@ -6,17 +6,27 @@ module.exports = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4
   },
-  authorId: {
-    type: DataTypes.UUID
-  },
   title: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
   },
   year: {
     type: DataTypes.INTEGER
   },
   isbn: {
     type: DataTypes.STRING
+  },
+  publisherId: {
+    type: DataTypes.UUID
+  },
+  categoryId: {
+    type: DataTypes.UUID
+  },
+  series: {
+    type: DataTypes.STRING
+  },
+  volume: {
+    type: DataTypes.INTEGER
   },
   createdBy: {
     type: DataTypes.STRING

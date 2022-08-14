@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+const db = require('../models/index')
 const { createJWT } = require('../utils/token')
 const { hashPassword, verifyPassword } = require('../utils/secure-user')
 
@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
     password: securedPassword
   }
 
-  const user = await User.create(userDetails)
+  const user = await db.User.create(userDetails)
   const token = createJWT(user)
 
   // email verification link
@@ -48,7 +48,7 @@ const verifyUserEmail = async (req, res) => {
   const tokenObject = jwt.verify(token, process.env.JWT_SECRET)
   const { username, email } = tokenObject
 
-  const foundUser = await User.findOne({
+  const foundUser = await db.User.findOne({
     where: {
       username,
       email
@@ -59,8 +59,8 @@ const verifyUserEmail = async (req, res) => {
       msg: 'Unauthorized user'
     })
   }
-  await User.update(
-    { verified: true },
+  await db.User.update(
+    { verifiedAt: Date.now() },
     {
       where: {
         username
@@ -82,16 +82,18 @@ const signIn = async (req, res) => {
   if (email) {
     userDetails.email = email
   }
-  const user = await User.findOne({ where: userDetails })
+  const user = await db.User.findOne({ where: userDetails })
+
+  // get user password and verification status
   const userPassword = user.password
-  const isVerified = user.verified
+  const isVerified = user.verifiedAt
   const isValid = await verifyPassword(password, userPassword)
   if (!isValid) {
     return res.status(400).json({
       msg: 'Incorrect username or password'
     })
   }
-  if (!isVerified) {
+  if (isVerified == null) {
     return res.status(400).json({
       msg: 'Please verify your email to continue'
     })
