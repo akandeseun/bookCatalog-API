@@ -1,5 +1,7 @@
 const { Op } = require('sequelize')
-const Book = require('../models/Books')
+const db = require('../models/index')
+
+const { Book, Author, Category, Publisher, BookDetail } = db
 
 const addBook = async (req, res) => {
   const {
@@ -23,19 +25,27 @@ const addBook = async (req, res) => {
     })
   }
 
-  const bodyObject = {
+  const bookObject = {
     title,
-    author,
-    category,
     year,
     language,
     ISBN,
     series,
     volume,
-    publisher,
     createdBy: username
   }
-  await Book.create(bodyObject)
+
+  const Bbook = await Book.create(bookObject)
+
+  if (volume) {
+    await BookDetail.create({
+      displayName: `${title} vol.${volume}`,
+      BookId: `${Bbook.id}`
+    })
+  } else {
+    await BookDetail.create({ displayName: title, BookId: `${Bbook.id}` })
+  }
+
   return res.status(201).json({
     msg: 'Book Added successfully'
   })
