@@ -4,6 +4,8 @@ const db = require('../models/index')
 const { createJWT } = require('../utils/token')
 const { hashPassword, verifyPassword } = require('../utils/secure-user')
 
+const { User } = db
+
 const signUp = async (req, res) => {
   const { username, email, password } = req.body
   // validate
@@ -22,7 +24,7 @@ const signUp = async (req, res) => {
     password: securedPassword
   }
 
-  const user = await db.User.create(userDetails)
+  const user = await User.create(userDetails)
   const token = createJWT(user)
 
   // email verification link
@@ -48,7 +50,7 @@ const verifyUserEmail = async (req, res) => {
   const tokenObject = jwt.verify(token, process.env.JWT_SECRET)
   const { username, email } = tokenObject
 
-  const foundUser = await db.User.findOne({
+  const foundUser = await User.findOne({
     where: {
       username,
       email
@@ -59,7 +61,7 @@ const verifyUserEmail = async (req, res) => {
       msg: 'Unauthorized user'
     })
   }
-  await db.User.update(
+  await User.update(
     { verifiedAt: Date.now() },
     {
       where: {
@@ -82,7 +84,7 @@ const signIn = async (req, res) => {
   if (email) {
     userDetails.email = email
   }
-  const user = await db.User.findOne({ where: userDetails })
+  const user = await User.findOne({ where: userDetails })
 
   // get user password and verification status
   const userPassword = user.password

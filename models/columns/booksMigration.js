@@ -28,6 +28,9 @@ module.exports = {
   volume: {
     type: DataTypes.INTEGER
   },
+  language: {
+    type: DataTypes.STRING
+  },
   createdBy: {
     type: DataTypes.STRING
   },

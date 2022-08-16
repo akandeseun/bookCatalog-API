@@ -6,9 +6,6 @@ module.exports = {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  BookId: {
-    type: DataTypes.UUID
-  },
   displayName: {
     type: DataTypes.STRING
   },
